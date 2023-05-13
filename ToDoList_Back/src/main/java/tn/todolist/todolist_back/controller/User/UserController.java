@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import tn.todolist.todolist_back.entity.User;
 import tn.todolist.todolist_back.service.User.UserService;
 
-import javax.websocket.server.PathParam;
+
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired

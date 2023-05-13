@@ -1,18 +1,16 @@
 package tn.todolist.todolist_back.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {

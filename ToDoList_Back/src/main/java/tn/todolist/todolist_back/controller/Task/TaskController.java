@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/task")
+@RequestMapping("/api/v1/task")
 public class TaskController {
     @Autowired
     TaskService taskService;
