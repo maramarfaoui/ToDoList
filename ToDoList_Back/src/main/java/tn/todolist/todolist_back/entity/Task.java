@@ -4,7 +4,7 @@ package tn.todolist.todolist_back.entity;
 import lombok.*;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -24,4 +24,6 @@ public class Task {
     @Temporal(TemporalType.DATE)
     private Date date;
     private LocalTime localTime;
+    @Enumerated(EnumType.STRING)
+    private Status status ;
 }

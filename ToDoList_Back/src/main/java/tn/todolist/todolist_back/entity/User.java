@@ -1,59 +1,90 @@
 package tn.todolist.todolist_back.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"username"}),
+        @UniqueConstraint(columnNames = {"email"})
+})
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String firstname;
-    private String lastname;
+    private long id;
+    private String name;
+    private String lastName;
+    private String username;
     private String email;
     private String password;
+    private Integer codeReset;
+    private String address;
+    private Integer zipCode;
+    private String city;
+    private String country;
+    @Temporal(TemporalType.DATE)
+    private Date dayOfBirth;
+    private String cin;
+    private String telNum;
+    private Boolean expired;
+    @Temporal(TemporalType.DATE)
+    private Date dateToUnexired;
+    private Boolean locked;
+    private Integer codeActivation;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role roles;
+
+
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Token> tokens;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(roles.name()));
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return this.username;
     }
 
-    @Override
-    public String getPassword(){
-        return password;
+    public void setUsername(String username) {
+        this.username = username;
     }
-
-
-
-
-
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !this.expired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !this.locked;
     }
 
     @Override
@@ -65,4 +96,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
